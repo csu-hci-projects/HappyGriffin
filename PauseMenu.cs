@@ -61,6 +61,7 @@ public class PauseMenu : MonoBehaviour
             }
         }
         automatic = !auto;
+        half = 1;
     }
     
 
