@@ -11,6 +11,26 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
 
     // Update is called once per frame
+    void Start()
+    {
+        //get settings: automatic and recall
+        if(Input.GetKeyDown(KeyCode.0)){
+            automatic = true;
+            recall = true;
+        }
+        if(Input.GetKeyDown(KeyCode.1)){
+            automatic = false;
+            recall = true;
+        }
+        if(Input.GetKeyDown(KeyCode.2)){
+            automatic = true;
+            recall = false;
+        }
+        if(Input.GetKeyDown(KeyCode.3)){
+            automatic = false;
+            recall = false;
+        }
+    }
     void Update()
     {
         //if pause input is pressed
@@ -40,6 +60,7 @@ public class PauseMenu : MonoBehaviour
                 }
             }
         }
+        automatic = !auto;
     }
     
 
