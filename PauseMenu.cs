@@ -9,54 +9,62 @@ public class PauseMenu : MonoBehaviour
     public static bool recall = false;
     public static int half = 0;
     public GameObject pauseMenuUI;
+    public Animator anim;
+    public GameObject Nathan;
 
     // Update is called once per frame
     void Start()
     {
+        
+
         //get settings: automatic and recall
-        if(Input.GetKeyDown(KeyCode.0)){
-            automatic = true;
-            recall = true;
-        }
-        if(Input.GetKeyDown(KeyCode.1)){
-            automatic = false;
-            recall = true;
-        }
-        if(Input.GetKeyDown(KeyCode.2)){
-            automatic = true;
-            recall = false;
-        }
-        if(Input.GetKeyDown(KeyCode.3)){
-            automatic = false;
-            recall = false;
-        }
-    }
-    void Update()
-    {
-        //if pause input is pressed
-        if (Input.GetKeyDown(KeyCode.Escape)){
-        if (isPaused){
-            Resume();
-        }
-        else{
-            Pause();
-        }
-        }
-        if (Input.GetKeyDown(KeyCode.S)){
-            playAnimations(gestures[half], automatic, recall)
-    }
+        // if(Input.GetKeyDown(KeyCode.Alpha0)){
+        //     automatic = true;
+        //     recall = true;
+        // }
+        // if(Input.GetKeyDown(KeyCode.1)){
+        //     automatic = false;
+        //     recall = true;
+        // }
+        // if(Input.GetKeyDown(KeyCode.2)){
+        //     automatic = true;
+        //     recall = false;
+        // }
+        // if(Input.GetKeyDown(KeyCode.3)){
+        //     automatic = false;
+        //     recall = false;
+        // }
     }
 
-    void playAnimations(char[] gestures, bool auto, bool recall){
+    void Update()
+    {
+        string[] g1 = {"A", "B"};
+        string[] g2 = {"C", "Raise Hand"};
+        string[][] gestures = {g1, g2};
+        //if pause input is pressed
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            if (isPaused){
+                Resume();
+            }
+            else{
+                Pause();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.S)){
+            playAnimations(gestures[half], automatic, recall);
+        }  
+    }
+
+    void playAnimations(string[] gestures, bool auto, bool recall){
         for(int i = 0; i < gestures.Length; i++){
             if(auto){
-                Nathan.GetCompnent<Animator>().Play(gestures[i])
+                Nathan.GetComponent<Animator>().Play(gestures[i]);
             }
             else{
                 Pause();
                 if(Input.GetKeyDown(KeyCode.Space)){
                     Resume();
-                    Nathan.GetCompnent<Animator>().Play(gestures[i]);
+                    Nathan.GetComponent<Animator>().Play(gestures[i]);
                 }
             }
         }
