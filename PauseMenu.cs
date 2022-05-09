@@ -19,7 +19,8 @@ public class PauseMenu : MonoBehaviour
     public static int i = 0;
     public static int Lesson = 0;
     public float time = 0.0f;
-    public float interval = 5f;
+    public float interval = 1f;
+    public bool form = true;
 
 
 
@@ -30,22 +31,22 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        string[] g1 = {"A", "B","C"};
-        string[] g2 = {"C", "B", "A"};
+        string[] g1 = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K","L","M"};
+        string[] g2 = {"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
         string[][] Gestures = {g1, g2};
+        string[] word = {"B", "Y", "E"};
         //choose lesson mode
         getMode();
         //automatic cannot pause
         
-        if (Input.GetKeyDown(KeyCode.Space)){
-            if (isPaused){
+        if (Input.GetKeyDown(KeyCode.S)){
+            if(isPaused){
                 Resume();
             }
             else{
                 Pause();
             }
         }
-        else{
         //S to Start
         //next lesson after n repeats
         if(Lesson == 2){
@@ -63,43 +64,51 @@ public class PauseMenu : MonoBehaviour
                 playAnimations(Gestures[half], recall);
                 time = 0.0f;
             }
-        }
-        if(Input.GetKeyDown(KeyCode.S)){
-            playAnimations(Gestures[half], recall); 
-        }
+        }else{
+            if(Input.GetKeyDown(KeyCode.Space)){
+                playAnimations(Gestures[half], recall); 
+            }
+            if(Input.GetKeyDown(KeyCode.Escape)){
+                playAnimations(word, recall);
+            }
         }
     }
 
     void playAnimations(string[] gestures, bool recall){
-            Time.timeScale = .75f;
-           // play the next gesture, i is counter
+            Time.timeScale = 1.25f;
+            // play the next gesture, i is counter
+            if(form){
                 Nathan.GetComponent<Animator>().Play(gestures[i%gestures.Length]);
-                //go to next letter
-                ++i;
                 //show the answer for the first lesson, and non-recall lesson
                 if(!recall || Lesson == 0){
                     showAnswer(gestures[i%gestures.Length].ToCharArray()[0]);
                 }
-                //restart lesson at the end
-                if(i == gestures.Length){
-                    ++Lesson;
-                    i = 0;
-                    if(Lesson == 2 && half == 0){
-                        showAnswer('C');
-                    }
+                //go to next letter
+                form = false;
+            }else{
+                Nathan.GetComponent<Animator>().Play("-"+gestures[i%gestures.Length]);
+                form = true;
+                ++i;
+            }
+            //restart lesson at the end
+            
+            if(recall && Lesson > 0 && i == 0){
+                    let=' ';
+                    letter.text = let.ToString();
                 }
-                if(recall && Lesson > 0 && i == 1){
-                        let=' ';
-                        letter.text = let.ToString();
-                    }
-                
-                
-                
+            if(i == gestures.Length){
+                ++Lesson;
+                i = 0;
+                // if(Lesson == 2 && half == 0){
+                //     showAnswer('N');
+                // }
+            }
     }
 
     void showAnswer(char myletter){
-        letter.text = let.ToString();
         let = myletter;
+        letter.text = let.ToString();
+
     }
     
     void getMode(){
